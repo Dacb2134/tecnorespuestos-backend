@@ -1,0 +1,30 @@
+# .github/workflows/ci.yml
+name: Integracion Continua TecnoRepuestos
+
+# Cuándo se ejecuta (cada vez que hagas push a main)
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest # Una compu virtual en Linux
+    
+    steps:
+    # 1. Descarga el código
+    - name: Checkout del repositorio
+      uses: actions/checkout@v3
+
+    # 2. Prepara Node.js
+    - name: Configurar Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+
+    # 3. Instala dependencias
+    - name: Instalar paquetes (npm ci)
+      run: npm ci
+
+    # 4. Ejecuta las pruebas que acabamos de hacer
+    - name: Ejecutar pruebas
+      run: npm test
